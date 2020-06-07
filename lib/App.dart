@@ -20,7 +20,7 @@ class _AppState extends State<App> {
     'text': 'Qual o nome do imediato dos Piratas do Ruivo',
     'answers': [
       'Bon Clay', 
-      'Yassop'
+      'Yassop',
       'Ben Beckman',
       'Lucky Roo'
     ],
@@ -63,7 +63,7 @@ class _AppState extends State<App> {
         ),
         body: Column(
           children: <Widget>[
-            Image.asset('assets/images/source.gif'),
+            Image.asset('assets/images/zoro.gif'),
             Quiz(_questions, _currentQuestionIndex)
           ],
         ),
