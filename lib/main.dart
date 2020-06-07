@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
-import './widgets/OnePieceQuiz.dart';
+import './App.dart';
 
-void main() => runApp(OnePieceQuiz());
+void main() => runApp(App());
