@@ -1,51 +1,36 @@
 import 'package:flutter/material.dart';
-import './widgets/Question.dart';
+import './widgets/Result.dart';
 import './widgets/Quiz.dart';
+import './QuestionsData.dart';
 
 class _AppState extends State<App> {
 
   int _currentQuestionIndex = 0;
+  int _punctuation = 0;
+  bool _quizFinished = false;
+  final List<Map<String, Object>> questions = QuestionsData().questions;
 
-  final List<Map<String, Object>> _questions = [{
-    'text': 'Que estilo de espada o Zoro utiliza para usar o Shishi Sonson?',
-    'answers': [
-      'Santoryu', 
-      'Nitoryu',
-      'Itoryu',
-      'Wado Ichimonji'
-    ],
-    'right answer': 'Itoryu'
-  },
-  {
-    'text': 'Qual o nome do imediato dos Piratas do Ruivo',
-    'answers': [
-      'Bon Clay', 
-      'Yassop',
-      'Ben Beckman',
-      'Lucky Roo'
-    ],
-    'right answer': 'Ben Beckman'
-  },
-  {
-    'text': 'Qual o nome da Akuma no Mi do Enel?',
-    'answers': [
-      'Gura Gura no Mi', 
-      'Goro Gor no Mi',
-      'Neko Neko no Mi',
-      'Nikyu Nikyu no Mi'
-    ],
-    'right answer': 'Santoryu'
-  },
-  {
-    'text': 'Qual o nome do imediato dos Piratas do Ruivo',
-      'answers': [
-      'Santoryu', 
-      'Nitoryu',
-      'Itoryu',
-      'Wado Ichimonji'
-    ],
-    'right answer': 'Santoryu'
-  }];
+  void onNextQuestion(String answer, String rightAnswer) {
+    this.setState(() { 
+      if (_currentQuestionIndex < questions.length - 1) {
+        _currentQuestionIndex++;
+      } else {
+        _quizFinished = true;
+      }
+      if (rightAnswer == answer) {
+        _punctuation++;
+      }
+      print(_punctuation);
+    });
+  }
+
+  void resetQuiz() {
+    this.setState(() { 
+      _currentQuestionIndex = 0;
+      _punctuation = 0;
+      _quizFinished = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +46,18 @@ class _AppState extends State<App> {
             ],
           )
         ),
-        body: Column(
-          children: <Widget>[
-            Image.asset('assets/images/zoro.gif'),
-            Quiz(_questions, _currentQuestionIndex)
-          ],
-        ),
+        body: !_quizFinished ? Container(
+          child: Column(
+            children: <Widget>[
+              Image.asset(questions[_currentQuestionIndex]['imgPath']),
+              Quiz(
+                currentQuestionIndex: _currentQuestionIndex,
+                questions: questions,
+                onNextQuestion: onNextQuestion,
+              )
+            ],
+          ),
+        ) : Result(_punctuation, questions.length, resetQuiz),
       ),
     );
   }
@@ -78,4 +69,3 @@ class App extends StatefulWidget {
     return _AppState();
   }
 }
-

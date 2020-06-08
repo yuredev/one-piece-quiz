@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import './Question.dart';
 
 class Quiz extends StatelessWidget {
+  final List<Map<String, Object>> questions; 
+  final int currentQuestionIndex; 
+  final void Function(String, String) onNextQuestion;
 
-  final List<Map<String, Object>> _questions; 
-  final int _currentQuestionIndex; 
-
-  Quiz(this._questions, this._currentQuestionIndex);
+  Quiz({
+    @required this.questions, 
+    @required this.currentQuestionIndex,
+    @required this.onNextQuestion
+  });
 
   @override
   Widget build(BuildContext context) {    
     return Question(
-      _questions[_currentQuestionIndex]['text'], 
-      _questions[_currentQuestionIndex]['answers']
+      text:  questions[currentQuestionIndex]['text'], 
+      answers: questions[currentQuestionIndex]['answers'],
+      onNextQuestion: onNextQuestion,
+      rightAnswer: questions[currentQuestionIndex]['right answer'],
     );
   }
 }
